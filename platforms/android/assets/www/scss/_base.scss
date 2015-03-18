@@ -1,0 +1,244 @@
+/*  LIST VIEW WITH NOTCHES */
+
+
+[data-role=listview]{
+  list-style:none;
+}
+
+[data-role=listview] li{
+    font-size: 1.2rem;
+    font-family:$font-primary;
+    line-height: 1.5;
+    padding:0.5rem 2rem;
+    width: 100%;
+    background-color: $lightgrey;
+    border-top:1px solid $white;
+    border-bottom: 1px solid $black;
+	text-align:center;
+}
+ 
+[data-role=overlay]{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:10;
+  height:100%;
+  width:100%;
+  background-color: rgba(0,0,0,0.82);
+}
+[data-role=modal]{
+  position:fixed;
+  top:20%;
+  left:10%;
+  width: 80%;
+  z-index:15;
+  max-height:80%;
+  padding:5vh;
+  border:1px solid #333;
+  min-height:10%;
+  color:#fff;
+  background-color:#666;
+  box-shadow:1px 1px 2px rgb(0,0,0);
+}
+/*************************************
+        Forms
+*************************************/
+.formBox{
+  padding: 0.6rem 0;
+}
+input, select{
+  line-height: 1.6rem;
+  font-size: 1.2rem;
+  padding:0 1rem;
+  max-width:90%;
+}
+.narrow{
+  width:2rem;
+}
+.btn{
+  width:auto;
+}
+.med{
+  width:10rem;
+}
+.lg{
+  width:25rem;
+}
+.xlg{
+  width:40rem;
+}
+ 
+ 
+*{
+	padding:0;
+	margin:0;
+		
+}
+html{
+	width:100%;
+	height:100%;
+    background-color:#333;
+    overflow:hidden;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+}
+
+body {
+	height: 100%;
+}
+
+h2, h3{
+	font-family:$font-secondary;
+	padding:0.2rem 2rem;
+	font-size: 1.2rem;
+}
+
+p, ul.desc {
+	font-family:$font-primary;
+	font-size: .8rem;
+	margin-left: 2rem;
+	margin-right: 2rem;
+}
+
+/********************************
+        TABS
+********************************/
+
+ul.tabs{
+	width:100%;
+	height:3rem;
+	/*margin-bottom:30px;*/
+}
+.tabs li.tab{
+	background:$darkgrey !important;
+	float:left; 
+	display:inline-block;
+	width:33.333%;
+}
+.tabs li.tab a{
+	display: block;
+	padding: 0.5rem 2rem;
+	font-size: 2rem;
+	line-height: 2rem;
+	height: 3rem;
+	color: #fff;
+	text-decoration: none;
+	border: none;
+	background-color: $lightgrey !important;
+	text-align: center;
+	border-top:1px solid $darkgrey !important;
+	border-right:1px solid $darkgrey !important;
+	border-left:1px solid $darkgrey !important;
+}
+.tabs li.tab a.activetab{
+	background-color:$darkgrey !important;
+	border-top:1px solid $darkgrey !important;
+	border-right:1px solid $darkgrey !important;
+	border-left:1px solid $darkgrey !important;
+}
+
+/********************************
+        PAGES
+********************************/
+
+[data-role="page"]{
+	/*display:none;*/
+	/*background-color:$black;*/
+	color: $black;	
+	/*width:100%;*/
+	padding-bottom: 60px;
+	position:absolute; 
+	top: 3.1rem; 	
+	margin-top: -1px;
+	/*left: 100%;*/
+	/*right: -10px;*/
+	/*transition: left 0.5s linear,
+			  right 0.5s linear; */
+	z-index: 10;
+	/*** Items to trigger hardware acceleration ***/
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-webkit-perspective: 1000;
+	-moz-perspective: 1000;
+	-ms-perspective: 1000;
+	perspective: 1000;
+	-webkit-transform: translate3d(0, 0, 0);
+	-moz-transform: translate3d(0, 0, 0);
+	-ms-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);  
+}
+[data-role=page].active{ 
+  left: 0;
+  right: 0;
+  z-index: 5;
+  padding-bottom: 60px;
+  /*background-color:$white;*/
+  /*border-top:1px solid #lightgrey;*/
+}
+[data-role=page].show{
+  display:block;
+}
+[data-role=page].hidden{
+  display:none;
+}
+div#home{
+	display:block;	
+}
+[data-role="header"]{
+	background-color: $primary_color;
+}
+[data-role="header"] h1{
+  font-size: 1.5rem;
+  text-shadow: 2px 2px 2px $lightgrey;
+  padding:0.4rem;
+  color: $black;
+  text-align:center;
+  letter-spacing:0.2rem;
+  word-spacing: 0.7rem;
+  font-variant:small-caps;
+  font-family:$font-secondary;
+}
+[data-role="footer"] {
+	background-color: $primary_color;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 60px;
+	z-index: 100;
+}
+
+[data-role="footer"] h3 {
+	color: $black;
+	text-align: center;
+}
+
+[data-role="content"]{
+  margin-top: -1px;
+	border-top:1px solid #666;	
+  /* to match the top of the active tab */
+}
+[data-role="content"] p:last-child{
+	padding-bottom:0rem;
+}
+
+/*** ICONS  ****/
+
+#hometab {
+	background: url("../img/home.png") no-repeat 50% 50%;
+	background-size: 3rem 3rem;
+	text-align: center;	
+}
+
+#geotab {
+	background: url("../img/compass.png") no-repeat 50% 50%;
+	background-size: 3rem 3rem;
+	text-align: center;
+}
+
+#contacttab {
+	background: url("../img/contacts.png") no-repeat 50% 50%;
+	background-size: 3rem 3rem;
+	text-align: center;
+}
