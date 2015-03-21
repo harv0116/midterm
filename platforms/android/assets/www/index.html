@@ -32,24 +32,33 @@
          <div data-role="overlay" style="display:none">&nbsp;</div>
   
       <div data-role="modal" style="display:none">
-        <h3>Modal Window Title</h3>
-        <form>
+        <h3 id="modelheader">Modal Window Title</h3>
+        <form id="modalForm">
           <div class="formBox">
-            <select name="list" id="list" class="lg">
-              <option value="1">First Value</option>
-              <option value="2">Second Value</option>
-              <option value="3" >Third Value</option>
-              <option value="4" >Fourth Value</option>
-              <option value="5">Fifth Value</option>
-              <option value="6">Sixth Value</option>
-            </select>
+            <label id="contName" for="contNameText" />Name:</label>
+            <input type="text" id="contNameText" placeholder="" readonly />
           </div>
           <div class="formBox">
-            <input type="text" id="txt" name="txt" class="lg" placeholder="Enter a value here please"/>
+            <label id="contPhone1" for="contPhone1Text" />Phone Number 1:</label>
+            <input type="text" id="contPhone1Text" placeholder="" readonly />
           </div>
           <div class="formBox">
-            <input type="button" id="btnCancel" value="Cancel" class="btn"/>
-            <input type="button" id="btnSave" value="Save" class="btn"/>
+            <label id="contPhone2" for="contPhone2Text" />Phone Number 2:</label>
+            <input type="text" id="contPhone2Text" placeholder="" readonly />
+          </div>          
+           <div class="formBox">
+            <label id="contLat" for="contLatText" />Latitude:</label>
+            <input type="text" id="contLatText" placeholder="" readonly />
+          </div>         
+          <div class="formBox">
+            <label id="contLong" for="contLongText" />Longitude:</label>
+            <input type="text" id="contLongText" placeholder="" readonly />
+          </div>          
+          
+          
+                 
+          <div class="formBox2">
+            <input type="button" id="btnOK" value="OK" class="btn"/>
           </div>
         </form>
       </div>
@@ -60,6 +69,7 @@
             <h3>Paul Harvey &copy;2015</h3>
         </div>
     	<script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/hammer.js"></script>
     	<script type="text/javascript" src="js/index.js"></script>
 	</body>
 

@@ -419,29 +419,61 @@ Mixins & Extensions
 
 [data-role=modal] {
   position: fixed;
-  top: 20%;
-  left: 10%;
-  width: 80%;
+  top: 10%;
+  left: 5%;
+  width: 75%;
   z-index: 15;
   max-height: 80%;
   padding: 5vh;
   border: 1px solid #333;
   min-height: 10%;
   color: #fff;
-  background-color: #666;
+  background-color: #7F7F7F;
   box-shadow: 1px 1px 2px black; }
 
 /*************************************
         Forms
 *************************************/
 .formBox {
-  padding: 0.6rem 0; }
+  width: 16rem;
+  padding: .2rem 1rem; }
+
+.formBox2 {
+  width: 16rem;
+  text-align: center; }
+
+label {
+  float: left;
+  text-align: right;
+  width: 5rem;
+  margin-right: 1rem;
+  font-familty: "Francois One", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: .6rem;
+  line-height: .8rem;
+  vertical-align: middle;
+  color: #FFFFFF; }
+
+::-webkit-input-placeholder {
+  color: #000000; }
+
+::-moz-placeholder {
+  color: #000000; }
+
+:-ms-input-placeholder {
+  color: #000000; }
+
+input:-moz-placeholder {
+  color: #000000; }
 
 input, select {
-  line-height: 1.6rem;
-  font-size: 1.2rem;
-  padding: 0 1rem;
-  max-width: 90%; }
+  line-height: .8rem;
+  font-size: .6rem;
+  padding: 0 .5rem;
+  max-width: 100%;
+  font-family: "Francois One", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  vertical-align: middle;
+  color: #FFFFFF;
+  width: 6.5rem; }
 
 .narrow {
   width: 2rem; }
@@ -591,6 +623,10 @@ div#home {
 
 [data-role="footer"] h3 {
   color: #000000;
+  text-align: center; }
+
+[data-role="header"] h3 {
+  color: #6998FF;
   text-align: center; }
 
 [data-role="content"] {
