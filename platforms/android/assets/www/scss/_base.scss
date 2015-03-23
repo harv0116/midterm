@@ -10,7 +10,7 @@
     font-family:$font-primary;
     line-height: 1.5;
     padding:0.5rem 2rem;
-    width: 100%;
+    width: 85%;
     background-color: $lightgrey;
     border-top:1px solid $white;
     border-bottom: 1px solid $black;
@@ -39,6 +39,12 @@
   color:#fff;
   background-color:$darkgrey;
   box-shadow:1px 1px 2px rgb(0,0,0);
+}
+
+#mapoutput
+{
+	width: 350px;
+	height: 500px;
 }
 /*************************************
         Forms

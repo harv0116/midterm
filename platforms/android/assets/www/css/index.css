@@ -402,7 +402,7 @@ Mixins & Extensions
   font-family: "Francois One", "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.5;
   padding: 0.5rem 2rem;
-  width: 100%;
+  width: 85%;
   background-color: #CCCCCC;
   border-top: 1px solid #FFFFFF;
   border-bottom: 1px solid #000000;
@@ -430,6 +430,10 @@ Mixins & Extensions
   color: #fff;
   background-color: #7F7F7F;
   box-shadow: 1px 1px 2px black; }
+
+#mapoutput {
+  width: 350px;
+  height: 500px; }
 
 /*************************************
         Forms
