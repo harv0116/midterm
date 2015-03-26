@@ -1,3 +1,4 @@
+
 var app = {
   	name: "Midterm App",
   	version: "1.2.3",
@@ -6,11 +7,7 @@ var app = {
 	pageTime: 500,
 	lat: "",
 	long: "",
-	themap: "",
-	session: {
-			'contact' :[],
-			'state'	: true
-		},
+	
 	
     initialize: function() {
         this.bindEvents();
@@ -21,50 +18,23 @@ var app = {
     },
 
     onDeviceReady: function() {
-		app.geolocation();
-		app.contacts();
-		//app.hammerlistener();   // Unable to get to work from here
-		// SORRY NO BACK BUTTON - I am just not feeling well and have to hand this in NOW
 		
-    	document.getElementById("btnOK").addEventListener("click", app.ok);
-	 
-  	},
-	geolocation: function() {
+		var options = new ContactFindOptions();
+		options.filter = "";
+		options.multiple = true;
+		var fields = ["displayName"]; 
+		navigator.contacts.find(fields, app.successFunc, app.errFunc, options);	
+		
 		if( navigator.geolocation ){ 		  
 			var params = {enableHighAccuracy: true, timeout:9000, maximumAge:5000};
 			navigator.geolocation.getCurrentPosition( app.reportPosition, app.gpsError, params ); 
 		} else {
 			alert("Sorry, your browser does not support location tools.");
 		}
-	},
-	contacts: function() {
-		var options = new ContactFindOptions();
-		options.filter = "";
-		options.multiple = true;
-		var fields = ["displayName"]; 
-		navigator.contacts.find(fields, app.successFunc, app.errFunc, options);	
-	},
-	hammerlistener: function() {
-		var listview = document.querySelector('ul');		
 		
-			var hammertime = new Hammer.Manager(listview);	
-			var singleTap = new Hammer.Tap({ event: 'singletap' });
-			var doubleTap = new Hammer.Tap({event: 'doubletap', taps: 2});
-			hammertime.add([doubleTap, singleTap]);
-			doubleTap.requireFailure('singletap');
-
-			 hammertime.on('singletap', function(ev) {
-				ev.preventDefault();
-				console.log(ev);
-				app.view(ev);
-			});
-			hammertime.on('doubletap', function(ev) {
-				ev.preventDefault();
-				console.log(ev);
-				app.map(ev);
-			});
-			 
-	},
+    	document.getElementById("btnOK").addEventListener("click", app.ok);
+	 
+  	},
 	
 	successFunc: function( matches ){
 		var div = document.getElementById("displaycontact");
@@ -74,23 +44,26 @@ var app = {
 		var phone2 = '';
 		var phone1type = '';
 		var phone2type = '';
+		var listview = [];
 		
 		nameul.setAttribute("data-role","listview");
-
+		var session = {
+			'contact' :[],
+			'state'	: true
+		};
 		
 		for (i=0; i<matches.length; i++)
 		{	
 			if (matches[i].displayName != null) {   // test to see if contact name was entered
-				var li = document.createElement("li");
-				li.dataset.ref = i;
-				li.innerHTML = matches[i].displayName;
-	
+				nameul.innerHTML += '<li>' + matches[i].displayName + '</li>';	
+				
+				listview[i] = document.querySelector('<li>');
 			} else {
-				var li = document.createElement("li");
-				li.dataset.ref = i;
-				li.innerHTML = 'Name not Listed';
-
+				nameul.innerHTML += '<li>' + 'Name not Listed' + '</li>';
+				
+				listview[i] = document.querySelector('<li>');
 			}
+			
 			
 			
 			if (matches[i].phoneNumbers) {
@@ -105,36 +78,40 @@ var app = {
 			}
 			
 
-			app.session.contact.push({ 'name': matches[i].displayName, 
+			session.contact.push({ 'name': matches[i].displayName, 
 								   'phone1': phone1,
 								   'phone2': phone2,
 								   'lat': ' ', 'long': ' ' });
-			nameul.appendChild(li);
-
+	
+		
 		}
 
 		div.appendChild(nameul);
 		
-		localStorage.setItem('session-harv0116', JSON.stringify(app.session));
-	
-			var listview = document.querySelector('ul');		
+		localStorage.setItem('session-harv0116', JSON.stringify(session));
 		
-			var hammertime = new Hammer.Manager(listview);	
-			var singleTap = new Hammer.Tap({ event: 'singletap' });
-			var doubleTap = new Hammer.Tap({event: 'doubletap', taps: 2});
-			hammertime.add([doubleTap, singleTap]);
-			doubleTap.requireFailure('singletap')
+		// HAMMER
+		
+		var myElement = document.querySelector(listview[item]);
 
-			 hammertime.on('singletap', function(ev) {
-				ev.preventDefault();
-				console.log(ev);
-				app.view(ev);
-			});
-			hammertime.on('doubletap', function(ev) {
-				ev.preventDefault();
-				console.log(ev);
-				app.map(ev);
-			}); 
+		var mc = new Hammer.Manager(myElement);
+
+		mc.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
+			// Single tap recognizer
+		mc.add( new Hammer.Tap({ event: 'singletap' }) );
+		
+		mc.get('doubletap').recognizeWith('singletap');
+			// we only want to trigger a tap, when we don't have detected a doubletap
+		mc.get('singletap').requireFailure('doubletap');
+
+		mc.on("singletap", app.view);
+		
+		mc.on("doubletap", app.map); 
+		console.log(mc);
+		
+		//document.querySelector("[data-role=listview]").addEventListener("click", app.view);
+		
+		 
 	},
 	errFunc: function ( ) {
 		alert("The contact could not be found");
@@ -144,12 +121,16 @@ var app = {
 		document.querySelector("[data-role=overlay]").style.display="none";
 	},
 	view: function(ev){
+		ev.stopPropagation();
 		document.querySelector("[data-role=modal]").style.display="block";
 		document.querySelector("[data-role=overlay]").style.display="block";
 	
 		var item = ev.target.getAttribute("data-ref");
+		//var itemVal = ev.target.innerHTML;
+		//document.getElementById("list").value = item;
 		
 		var restoredSession = JSON.parse(localStorage.getItem('session-harv0116'));
+		//console.log(restoredSession);
 		
 		var contactName = restoredSession.contact[item].name;
 		var contactPhone1 = restoredSession.contact[item].phone1;
@@ -166,8 +147,11 @@ var app = {
 		document.getElementById("contPhone2Text").placeholder = contactPhone2;
 		document.getElementById("contLatText").placeholder = contactLat;
 		document.getElementById("contLongText").placeholder = contactLong;
+		
+		// display all of contact information here.  Name & 2 Phone Numbers.
 	},
 	map: function(ev){
+		ev.stopPropagation()
 		document.querySelector("[data-role=modal]").style.display="none";
 		document.querySelector("[data-role=overlay]").style.display="none";
 		document.querySelector("#home").style.display="none";
@@ -181,8 +165,6 @@ var app = {
 		var contactLat = restoredSession.contact[item].lat;
 		var contactLong = restoredSession.contact[item].long;
 		
-		console.log ("LAT = " + app.lat + " LONG = " + app.long);
-
 
 		if (contactLat.trim()=="" || contactLong.trim()=="") {
 			
@@ -190,30 +172,31 @@ var app = {
 			var mapOptions = {
 				// center map
 				center: gpsLatLng,
-				disableDoubleClickZoom: true,
 				zoom: 14,
 				scalecontrol: true,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
 			
-			app.themap = new google.maps.Map(document.getElementById("mapoutput"), mapOptions);
+			var map = new google.maps.Map(document.getElementById("mapoutput"), mapOptions);
 			
 			
 			alert("Double tap anywhere to set the position for the contact");
 			
-			var el = document.getElementById('mapoutput');
+			//HAMMER TO SET THE LOCATION MARKER
 			
-			var hammertime = new Hammer.Manager(el);	
-			var singleTap = new Hammer.Tap({ event: 'singletap' });
-			var doubleTap = new Hammer.Tap({event: 'doubletap', taps: 2});
-			hammertime.add([doubleTap, singleTap]);
-			doubleTap.requireFailure('singletap')
-
-			hammertime.on('doubletap', function(ev) {
-				ev.preventDefault();
-				console.log(ev);
-				app.addLocation(ev, item);
-			});
+			var dc = new Hammer(map);
+		
+			dc.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
+			
+			dc.add( new Hammer.Tap({ event: 'singletap' }) );
+		
+			dc.get('doubletap').recognizeWith('singletap');
+		
+			// we only want to trigger a tap, when we don't have detected a doubletap
+			dc.get('singletap').requireFailure('doubletap');
+		
+			dc.on('doubletap', app.addLocation);
+						
 		
 		} else {
 			var myLatLng = new google.maps.LatLng(contactLat,contactLong);
@@ -221,12 +204,11 @@ var app = {
 				// center map
 				zoom: 14,
 				center: myLatLng,
-				disableDoubleClickZoom: true,
 				scalecontrol: true,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			}
 			
-			app.themap = new google.maps.Map(document.getElementById("mapoutput"), mapOptions);
+			var map = new google.maps.Map(document.getElementById("mapoutput"), mapOptions);
 		
 			
 		}
@@ -235,38 +217,39 @@ var app = {
 		
 	},
 
-	addLocation: function(ev, item) {
+	addLocation: function(ev) {
 	
-		console.log ("BY SOME LUCK WE GOT HERE!!!");
-		console.log ("GPS " + app.lat + " " + app.long);
-		
-		var myLatLng = new google.maps.LatLng(app.lat,app.long);
-		
-		var marker = new google.maps.Marker({
-			position: myLatLng,
-			map: app.themap,
-			animation: google.maps.Animation.BOUNCE
-			
-		});
+	// we have item????
+	// we have local storage
 	
+	console.log ("BY SOME LUCK WE GOT HERE!!!");
+	ev.stopPropagation();
+	var marker = new google.maps.Marker({
+		position: myLatLng,
+		map: map,
+		animation: google.maps.Animation.BOUNCE
 		
-		if (marker.getAnimation() != null) {
-				marker.setAnimation(null);
-			} else {
-				marker.setAnimation(google.maps.Animation.BOUNCE);
-		}
-		
-		// I give up:
-		// The marker doesnt work right
-		// I do not know how to use localstorage to save the lat and long to the current contact
-		
-		
-		
+	});
+
+	
+	if (marker.getAnimation() != null) {
+			marker.setAnimation(null);
+		} else {
+			marker.setAnimation(google.maps.Animation.BOUNCE);
+	}
+	
+	session.contact[item].splice(item, 1, [{'name': contactName,
+								 'phone1': contactPhone1,
+								 'phone2': contactPhone2,
+								 'lat': app.lat,
+								 'long': app.long }]);
+	
+	localStorage.setItem('session-harv0116', JSON.stringify(session));
+
 	},
 	reportPosition: function(position) {
 		app.lat = position.coords.latitude;
 		app.long = position.coords.longitude;
-		console.log ("LAT = " + app.lat + " LONG = " + app.long);
 	},
 	gpsError: function( error ){	   		
 		var errors = {
@@ -279,3 +262,5 @@ var app = {
 
 };
 app.initialize();
+
+

@@ -7,12 +7,16 @@
     <feature name="Contacts">
         <param name="android-package" value="org.apache.cordova.contacts.ContactManager" />
     </feature>
-    <name>Midterm</name>
+    <icon density="mdpi" src="www/icons/plogo_mdpi_48x48.png" />
+    <icon density="hdpi" src="www/icons/plogo_hdpi_72x72.png" />
+    <icon density="xhdpi" src="www/icons/plogo_xhdpi_96x96.png" />
+    <icon density="xxhdpi" src="www/icons/plogo_xxhdpi.png" />
+    <name>Pauls Contacts</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        A program that does geolocation and contacts
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="harv0116@algonquinlive.com">
+        Paul Harvey
     </author>
     <content src="index.html" />
     <access origin="*" />
